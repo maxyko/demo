@@ -1,4 +1,5 @@
 name: Demo Actions
+on: push
 jobs:
   Explore-GitHub-actions:
     runs-on: ubuntu-latest
