@@ -29,9 +29,9 @@ jobs:
       - name: Install asciinema
         run: |
           sudo apt-get install asciinema
-          asciinema rec demo.cast
       - name: Run Dive
         run: |
+           asciinema rec demo.cast
            echo ${{ secrets.GITHUB_TOKEN }} | docker login -u maxyko --password-stdin ghcr.io
            docker pull $CONT_IMAGE
            echo "-== Running Dive ==-"
