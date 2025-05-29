@@ -1,18 +1,14 @@
 name: Demo Actions
 on: push
+env:
+  CONT_IMAGE: 'ghcr.io/maxyko/demo:1.0.0'
 jobs:
   Explore-GitHub-actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Refresh local package index
-        run: sudo apt update
-      - name:  Install Dive
-        run: |
-          DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-          curl -fOL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb"
-          sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
       - name: Install Docker
         run: |
+          sudo apt update
           sudo apt-get install ca-certificates curl
           sudo install -m 0755 -d /etc/apt/keyrings
           sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -22,11 +18,16 @@ jobs:
            $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
           sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
-          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin        
+      - name:  Install Dive
+        run: |
+          DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+          curl -fOL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb"
+          sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
       - name: Run Dive
         run: |
            echo ${{ secrets.GITHUB_TOKEN }} | docker login -u maxyko --password-stdin ghcr.io
-           docker pull ghcr.io/maxyko/demo:1.0.0
+           docker pull $CONT_IMAGE
            echo "-== Running Dive. ==-"
-           dive --ci --lowestEfficiency=0.9 ghcr.io/maxyko/demo:1.0.0
+           dive --ci --lowestEfficiency=0.9 $CONT_IMAGE
     
