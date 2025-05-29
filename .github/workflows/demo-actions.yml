@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Install Docker
         run: |
-          sudo apt update
+          sudo apt-get update
           sudo apt-get install ca-certificates curl
           sudo install -m 0755 -d /etc/apt/keyrings
           sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -25,11 +25,11 @@ jobs:
         run: |
           DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
           curl -fOL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb"
-          sudo apt install ./dive_${DIVE_VERSION}_linux_amd64.deb
+          sudo apt-get install ./dive_${DIVE_VERSION}_linux_amd64.deb
       - name: Install asciinema
         run: |
-          sudo apt update
-          sudo apt install asciinema
+          sudo apt-get update
+          sudo apt-get install asciinema
       - name: Run Dive
         run: |
            asciinema rec demo.cast
