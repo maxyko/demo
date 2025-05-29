@@ -37,5 +37,6 @@ jobs:
            echo "-== Running Dive ==-"
            dive --ci --lowestEfficiency=0.9 $CONT_IMAGE
            echo "Asciinema:"
+           exit
            asciinema upload demo.cast
     
