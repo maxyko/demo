@@ -32,12 +32,12 @@ jobs:
           sudo apt-get install asciinema
       - name: Run Dive
         run: |
-           ###asciinema rec demo.cast
            echo ${{ secrets.GITHUB_TOKEN }} | docker login -u maxyko --password-stdin ghcr.io
            docker pull $CONT_IMAGE
            echo "-== Running Dive ==-"
+           asciinema rec -c dive demo.cast
            dive --ci --lowestEfficiency=0.9 $CONT_IMAGE
-           ###echo "Asciinema:"
+           echo "Asciinema:"
            ###exit
-           ###asciinema upload demo.cast
+           asciinema upload demo.cast
     
