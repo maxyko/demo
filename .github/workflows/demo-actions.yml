@@ -27,4 +27,5 @@ jobs:
         run: |
            echo ${{ secrets.GITHUB_TOKEN }} | docker login -u maxyko --password-stdin ghcr.io
            docker pull ghcr.io/maxyko/demo:1.0.0
+           dive --ci --lowestEfficiency=0.9
     
