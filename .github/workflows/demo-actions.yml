@@ -1,5 +1,7 @@
 name: Demo Actions
-on: push
+on:
+  - push
+  - workflow_dispatch
 env:
   CONT_IMAGE: 'ghcr.io/maxyko/demo:1.0.0'
 jobs:
